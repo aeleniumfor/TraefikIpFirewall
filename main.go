@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"gopkg.in/yaml.v3"
+	"log"
 	"net"
 	"net/http"
 	"os"
@@ -27,7 +27,7 @@ func IP_Black_List_Handler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	fmt.Println("Client IP:", ip)
+	log.Println("clientIP: ", clientIP)
 	rule, err := loadRule("rule.yaml")
 	if err != nil {
 		// ruleファイルが失敗 == 認証サービスで機能していない
@@ -57,6 +57,6 @@ func IP_Black_List_Handler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/", IP_Black_List_Handler)
-	fmt.Println("Server is running on port 8081...")
+	log.Println("Server is running on port 8081...")
 	http.ListenAndServe(":8081", nil)
 }
